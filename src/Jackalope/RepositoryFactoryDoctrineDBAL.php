@@ -65,13 +65,12 @@ class RepositoryFactoryDoctrineDBAL implements RepositoryFactoryInterface
             return null;
         }
 
-        // check if we have all required keys
-        $present = array_intersect_key(self::$required, $parameters);
-        if (count(array_diff_key(self::$required, $present))) {
+        // check if we have all required parameters
+        if (count(array_diff_key(self::$required, $parameters))) {
             return null;
         }
-        $defined = array_intersect_key(array_merge(self::$required, self::$optional), $parameters);
-        if (count(array_diff_key($defined, $parameters))) {
+        // check if we have any unknown parameters
+        if (count(array_diff_key($parameters, self::$required, self::$optional))) {
             return null;
         }
 
